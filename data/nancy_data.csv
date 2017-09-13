@@ -1,0 +1,7 @@
+subjCode,workerId,assignmentId,hitId,pic1,pic2,country1,country2,expTimer,response,trial_number,rt
+nancy,workerId,assignmentId,hitId,anvil,elephant,unspecified,unspecified,3.816,1,1,1624
+nancy,workerId,assignmentId,hitId,anvil,moviecamera,unspecified,unspecified,4.974,1,2,131
+nancy,workerId,assignmentId,hitId,anvil,penguin,unspecified,unspecified,6.182,1,3,194
+nancy,workerId,assignmentId,hitId,apricot,fireextinguisher,unspecified,unspecified,7.257,1,4,55
+nancy,workerId,assignmentId,hitId,apricot,iguana,unspecified,unspecified,8.474,1,5,199
+nancy,workerId,assignmentId,hitId,apricot,tank,unspecified,unspecified,9.718,1,6,216

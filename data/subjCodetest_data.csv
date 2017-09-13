@@ -1,0 +1,3 @@
+subjCode,workerId,assignmentId,hitId,pic1,pic2,country1,country2,expTimer,response,trial_number,rt
+subjCodetest,workerId,assignmentId,hitId,anvil,corncob,unspecified,unspecified,3.348,1,1,569
+subjCodetest,workerId,assignmentId,hitId,anvil,iguana,unspecified,unspecified,4.446,2,2,71
