@@ -1,5 +1,7 @@
+import PORT from './port.js';
+
 // Function Call to Run the experiment
-function runExperiment(trials, subjCode, workerId, assignmentId, hitId) {
+export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, FULLSCREEN) {
     let timeline = [];
 
     // Data that is collected for jsPsych

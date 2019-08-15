@@ -1,31 +1,24 @@
-## Running Locally
+## Installation
 
 You must have nodjs installed: https://nodejs.org. Make sure Python 2 is installed.
 
-```
-git clone https://github.com/kmui2/Image-Similarity-Experiment
-cd Image-Similarity-Experiment
-sudo npm install -g nodemon
-npm install
-npm start
+## Development
+
+If you are working on your local machine, open the dynamic link in the output when running the server.
+
+If you are working on Sapir, go to http://sapir.psych.wisc.edu/mturk/ImageSimilarity/dev.
+
+The static HTML, CSS, and JavaScript files are in the `dev/` directory, and the Node.js API server is located in the root `./index.js` file.
+
+## Production
+
+When you are done, run the following command on Sapir and go to http://sapir.psych.wisc.edu/mturk/ImageSimilarity/prod.
+
+```sh
+npm run prod
 ```
 
-When making changes, the html and javascript is in the dev/ directory. To make sure the prod/ (production) directory is
-updated while editing the dev/ directory, install gulp taskrunner globally and run the gulp watch command. 
 
-```
-sudo npm install -g gulp
-gulp watch
-```
+## Switching from CSV to JSON and Vice Versa for Data Collection
 
-If you just need to build prod/ , then just call either of these commands:
-
-```
-gulp prod
-```
-
-```
-npm prod
-```
-
-Then, go to http://localhost:7070
+Open `fileformat.js` and switch which file format you want the data and demographics in. You **must restart** the node api server (pm2) after making these changes.

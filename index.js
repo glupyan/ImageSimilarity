@@ -3,10 +3,12 @@ const express = require('express');
 const path = require("path");
 const PythonShell = require('python-shell');
 const fs = require('fs');
+const fsPromises = require("fs").promises;
 const csvWriter = require("csv-write-stream");
 const _ = require('lodash');
 const bodyParser = require('body-parser');
 const csv = require('csvtojson');
+const getPort = require("get-port");
 
 let app = express();
 let writer = csvWriter({sendHeaders: false});
@@ -14,7 +16,25 @@ let writer = csvWriter({sendHeaders: false});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.set('port', (process.env.PORT || 7070))
+(async () => {
+  const PORT = await getPort({ port: getPort.makeRange(7100, 7199) });
+  console.log(PORT)
+  app.set("port", PORT);
+  await fsPromises.writeFile(
+    path.join("dev", "port.js"),
+    `export default ${PORT};\n`
+  );
+
+  await fsPromises.writeFile(
+    path.join("prod", "port.js"),
+    `export default ${PORT};\n`
+  );
+
+  app.listen(app.get("port"), function() {
+    console.log("Node app is running at http://localhost:" + app.get("port"));
+  });
+})();
+
 
 // Add headers
 app.use(function (req, res, next) {
@@ -30,11 +50,6 @@ app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/dev/index.html'));
 })
 app.use(express.static(__dirname + '/dev'));
-
-app.listen(app.get('port'), function () {
-  console.log("Node app is running at http://localhost:" + app.get('port'))
-})
-
 
 // POST endpoint for requesting trials
 app.post('/trials', function (req, res) {

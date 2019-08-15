@@ -1,4 +1,5 @@
-const PORT = 7070;
+import PORT from './port.js';
+import { runExperiment } from './experiment.js'
 const FULLSCREEN = true;
 $(document).ready(function(){
 
@@ -25,7 +26,7 @@ $(document).ready(function(){
                 console.log(data);
                 $("#loading").remove();
 
-                runExperiment(data.trials, subjCode, workerId, assignmentId, hitId);
+                runExperiment(data.trials, subjCode, workerId, assignmentId, hitId, FULLSCREEN);
             }
         })
     

@@ -4,20 +4,22 @@
   "description": "A sample Node.js app using Express 4",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "nodemon index.js --watch index.js",
     "prod": "gulp prod"
   },
   "dependencies": {
-    "body-parser": "^1.17.2",
+    "body-parser": "^1.19.0",
     "csv-write-stream": "^2.0.0",
     "csvtojson": "^1.1.7",
-    "express": "^4.13.3",
+    "express": "^4.17.1",
     "fast-csv": "^2.4.0",
-    "lodash": "^4.17.4",
+    "get-port": "^5.0.0",
+    "lodash": "^4.17.15",
+    "nodemon": "^1.19.1",
     "python-shell": "^0.4.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-html-replace": "^1.6.2"
   },
   "engines": {
