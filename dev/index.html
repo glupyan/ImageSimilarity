@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" style="height:64%;">
+<html lang="en" style="height:700px;padding:10px;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://surveyjs.azureedge.net/0.12.35/survey.jquery.js"></script>
     <script src="jspsych-5.0.3/jspsych.js"></script>
     <script src="jspsych-5.0.3/plugins/jspsych-button-response.js"></script>
     <script src="jspsych-5.0.3/plugins/jspsych-html.js"></script>
@@ -18,17 +19,22 @@
     <script src="jspsych-5.0.3/plugins/jspsych-single-audio.js"></script>
     <script src="jspsych-5.0.3/plugins/jspsych-categorize.js"></script>
     <script src="jspsych-5.0.3/plugins/jspsych-multi-stim-multi-response.js"></script>
+    <script src="jspsych-5.0.3/plugins/surveyjs.js"></script>
     <script src="jspsych-5.0.3/plugins/jspsych-call-function.js"></script>
+    <link href="jspsych-5.0.3/css/surveyjs.css" rel="stylesheet" type="text/css"></link>
     <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
     <link href="jspsych-5.0.3/css/jspsych.css" rel="stylesheet" type="text/css"></link>
     <script src="helpers.js"></script>
+    <script src="demographicsQuestions.js"></script>
     <script type="module" src="experiment.js"></script>
     <script type="module" src="port.js"></script>
     <!-- build:js -->
     <script type="module" src="dev.js"></script>
     <!-- endbuild -->
     <link rel="stylesheet" type="text/css" href="main.css" />
-    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css" />
+
+    <title>ImageSimilarity</title>
 </head>
 <body style="position:relative;height:100%;">
     <!-- build:form -->

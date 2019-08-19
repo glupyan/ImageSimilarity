@@ -1,7 +1,17 @@
 import PORT from './port.js';
 
+
+function disableScrollOnSpacebarPress () {
+    window.onkeydown = function(e) {
+      if (e.keyCode == 32 && e.target == document.body) {
+        e.preventDefault();
+      }
+    };
+  }
+  
 // Function Call to Run the experiment
 export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, FULLSCREEN) {
+    disableScrollOnSpacebarPress();
     let timeline = [];
 
     // Data that is collected for jsPsych
@@ -61,15 +71,14 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
             hitId: hitId,
             pic1: trial.pic1,
             pic2: trial.pic2,
-            country1: trial.country1 || 'unspecified',
-            country2: trial.country2 || 'unspecified',
+            category: trial.category || 'NA',
             expTimer : -1,
             response: -1,
             trial_number: trial_number,
             rt: -1,
         }	
 
-        let stimulus = `
+        let stimulus = /* html */`
         <canvas width="800px" height="25px" id="bar"></canvas>
         <script>
             var barCanvas = document.getElementById('bar');
@@ -88,9 +97,9 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
         </div>
         `;
 
-        let prompt = `
+        let prompt = /* html */`
         <div style="position:absolute;bottom:0;width:100%;">
-        <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
+        <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
             <div id="container">
                 <img id="scale" src="img/scale.jpg" width="100%" />
                 <canvas id="canvas" width="800px" height="138.97px"></canvas>
@@ -116,7 +125,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
 
                 // POST response data to server
                 $.ajax({
-                    url: 'http://'+document.domain+':'+PORT+'/trials',
+                    url: 'http://'+document.domain+':'+PORT+'/data',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(response),
@@ -152,9 +161,41 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
         trial_number++;
     })
 
+    
+    let demographicsTrial = {
+        type: "surveyjs",
+        questions: demographicsQuestions,
+        on_finish: function(data) {
+        const demographicsResponses = Object.entries(data.response).map(([question, response]) => ({
+            subjCode, response, question,
+        }));
+        
+        console.log(demographicsResponses);
+        // POST demographics data to server
+        $.ajax({
+            url: "http://" + document.domain + ":" + PORT + "/demographics",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ subjCode, responses: demographicsResponses }),
+            success: function() {}
+        });
+
+        let endmessage = `
+                    <p class="lead">Thank you for participating! If you have any questions or comments, please email hroebuck@wisc.edu.</p>
+                    
+                    <h3>Debriefing </h3>
+                    <p class="lead">
+                    These ratings are helping us understand how similar different people's concepts of common objects are.
+                    </p>
+                    `;
+        jsPsych.endExperiment(endmessage);
+        }
+    };
+    timeline.push(demographicsTrial);
+
 
     let endmessage = `Thank you for participating! Your completion code is ${participantID}. Copy and paste this in 
-        MTurk to get paid. If you have any questions or comments, please email jsulik@wisc.edu.`
+        MTurk to get paid. If you have any questions or comments, please email hroebuck@wisc.edu.`
 
     // add scale pic paths to images that need to be loaded
     images.push('img/scale.png');

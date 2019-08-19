@@ -1,7 +1,17 @@
 import PORT from './port.js';
 
+
+function disableScrollOnSpacebarPress () {
+    window.onkeydown = function(e) {
+      if (e.keyCode == 32 && e.target == document.body) {
+        e.preventDefault();
+      }
+    };
+  }
+  
 // Function Call to Run the experiment
 export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, FULLSCREEN) {
+    disableScrollOnSpacebarPress();
     let timeline = [];
 
     // Data that is collected for jsPsych
@@ -69,7 +79,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
             rt: -1,
         }	
 
-        let stimulus = `
+        let stimulus = /* html */`
         <canvas width="800px" height="25px" id="bar"></canvas>
         <script>
             var barCanvas = document.getElementById('bar');
@@ -88,7 +98,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
         </div>
         `;
 
-        let prompt = `
+        let prompt = /* html */`
         <div style="position:absolute;bottom:0;width:100%;">
         <h1 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h1>
             <div id="container">
@@ -116,7 +126,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
 
                 // POST response data to server
                 $.ajax({
-                    url: 'http://'+document.domain+':'+PORT+'/trials',
+                    url: 'http://'+document.domain+':'+PORT+'/data',
                     type: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(response),
@@ -151,6 +161,39 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
 
         trial_number++;
     })
+
+    
+    let demographicsTrial = {
+        type: "surveyjs",
+        questions: demographicsQuestions,
+        on_finish: function(data) {
+        const demographicsResponses = Object.entries(data.response).map(([question, response]) => ({
+            subjCode, response, question,
+        }));
+        
+        console.log(demographicsResponses);
+        // POST demographics data to server
+        $.ajax({
+            url: "http://" + document.domain + ":" + PORT + "/demographics",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ subjCode, responses: demographicsResponses }),
+            success: function() {}
+        });
+
+        let endmessage = `
+                    <p class="lead">Thank you for participating! If you have any questions or comments, please email hroebuck@wisc.edu.</p>
+                    
+                    <h3>Debriefing </h3>
+                    <p class="lead">
+                    The purpose of this study is to see how people who experience their thoughts in different ways (e.g., more or less language-like)
+                    include different elements in their drawings of common animals and objects. 
+                    </p>
+                    `;
+        jsPsych.endExperiment(endmessage);
+        }
+    };
+    timeline.push(demographicsTrial);
 
 
     let endmessage = `Thank you for participating! Your completion code is ${participantID}. Copy and paste this in 

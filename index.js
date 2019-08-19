@@ -9,12 +9,23 @@ const _ = require('lodash');
 const bodyParser = require('body-parser');
 const csv = require('csvtojson');
 const getPort = require("get-port");
+const jsonfile = require('jsonfile');
 
 let app = express();
 let writer = csvWriter({sendHeaders: false});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
+
+function createFolderIfDoesntExist(foldername) {
+  if (!fs.existsSync(path.join(__dirname, foldername))) {
+    fs.mkdirSync(path.join(__dirname, foldername));
+  }
+}
+
+createFolderIfDoesntExist("demographics");
+createFolderIfDoesntExist("trials");
+createFolderIfDoesntExist("data");
 
 (async () => {
   const PORT = await getPort({ port: getPort.makeRange(7100, 7199) });
@@ -25,6 +36,7 @@ app.use(bodyParser.urlencoded({extended: false}));
     `export default ${PORT};\n`
   );
 
+  createFolderIfDoesntExist("prod");
   await fsPromises.writeFile(
     path.join("prod", "port.js"),
     `export default ${PORT};\n`
@@ -101,3 +113,53 @@ app.post('/data', function (req, res) {
 
   res.send({success: true});
 })
+
+
+// POST endpoint for receiving demographics responses
+app.post('/demographics', function (req, res, next) {
+  let demographics = req.body;
+  console.log('demographics post request received');
+  console.log(demographics);
+  let path = 'demographics/' + demographics.subjCode + '_demographics.csv';
+
+  fs.access('./demographics', (err) => {
+    if (err && err.code === 'ENOENT') {
+      fs.mkdir('./demographics', () => {
+        next();
+      });
+    }
+    else next();
+  });
+
+},
+  (req, res, next) => {
+    let demographics = req.body;
+    let path = 'demographics/' + demographics.subjCode + '_demographics.csv';
+    fs.access(path, (err) => {
+      if (err && err.code === 'ENOENT') {
+        jsonfile.writeFile(path, { trials: [] }, (err) => {
+          if (err) {
+            res.send({ success: false });
+            return next(err);
+          }
+          next();
+        })
+      }
+      else next();
+    })
+  }, (req, res, next) => {
+    // Parses the trial response data to csv
+    let demographics = req.body;
+    let path = 'demographics/' + demographics.subjCode + '_demographics.csv';
+
+    writer = csvWriter({ headers: ['subjCode', 'question', 'response'] });
+
+    writer.pipe(fs.createWriteStream(path, { flags: 'w' }));
+    demographics.responses.forEach((response) => {
+      writer.write(response);
+    });
+    writer.end();
+
+    res.send({ success: true });
+  });
+
