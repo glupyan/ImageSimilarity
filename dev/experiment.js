@@ -60,8 +60,8 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
     // Pushes each audio trial to timeline
     _.forEach(trials, (trial) => {
 
-        images.push('stims/'+trial.pic1+'.png');
-        images.push('stims/'+trial.pic2+'.png');
+        images.push('stims/'+trial.pic1+'.jpg');
+        images.push('stims/'+trial.pic2+'.jpg');
         
         // Empty Response Data to be sent to be collected
         let response = {
@@ -89,10 +89,10 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
         <h5 style="text-align:center;">Trial ${trial_number} of ${num_trials}</h5>
         <div style="width:100%;position:absolute;">
             <div style="width:50%;text-align:center;float:left;">
-                <img src="stims/${trial.pic1}.png" alt="${trial.pic1}" height="200px" align="middle" style="max-width:400px;"/> 
+                <img src="stims/${trial.pic1}.jpg" alt="${trial.pic1}" height="200px" align="middle" style="max-width:400px;"/> 
             </div>
             <div style="width:50%;text-align:center;float:left;">
-                <img src="stims/${trial.pic2}.png" alt="${trial.pic2}" height="200px" align="middle" style="max-width:400px;width=50%;" />
+                <img src="stims/${trial.pic2}.jpg" alt="${trial.pic2}" height="200px" align="middle" style="max-width:400px;width=50%;" />
             </div>
         </div>
         `;
@@ -101,7 +101,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
         <div style="position:absolute;bottom:0;width:100%;">
         <h2 style="text-align:center;line-height:1.5;">How similar in appearance are these two drawings?</h2>
             <div id="container">
-                <img id="scale" src="img/scale.png" width="100%" />
+                <img id="scale" src="img/scale.jpg" width="100%" />
                 <canvas id="canvas" width="800px" height="138.97px"></canvas>
             </div>
         </div>
@@ -200,7 +200,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
     // add scale pic paths to images that need to be loaded
     images.push('img/scale.png');
     for (let i = 1; i <= 7; i++)
-        images.push('img/scale'+i+'.png');
+        images.push('img/scale'+i+'.jpg');
 
     jsPsych.pluginAPI.preloadImages(images, function(){ startExperiment(); });
 
