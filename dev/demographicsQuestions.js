@@ -2,17 +2,10 @@
   let demographicsQuestions = [
     {
       type: "radiogroup",
-      name: "drawing_implement",
-      isRequired: true,
-      title: "What did you use to draw?",
-      choices: ["Laptop trackpad", "Mouse", "Standalone trackpad", "Touch screen", "Other"]
-    },
-    {
-      type: "radiogroup",
       name: "gender",
       isRequired: true,
       title: "What is your gender?",
-      choices: ["Male", "Female", "Other", "NA|Prefer not to say"]
+      choices: ["Male", "Female", "Other", "Prefer not to say"]
     },
 
     {
@@ -41,8 +34,8 @@
       type: "radiogroup",
       name: "artskill",
       isRequired: true,
-      title: "How well can you draw?",
-      choices: ["1|Below average", "2|Slightly below average", "3|Average", "4|Slightly above average", "5|Above average"]
+      title: "How would you rate how well can you draw?",
+      choices: ["Below average", "Slightly below average", "Average", "Slightly above average", "Above average"]
     },
     
 
@@ -59,25 +52,25 @@
         "5_bachelors|Bachelor's degree",
         "6_masters|Master's degree",
         "7_phd|PhD, law, or medical degree",
-        "NA|Prefer not to say"
+        "Prefer not to say"
       ]
     },
     {
       type: "text",
       name: "favorite hs subject",
-      visibleIf: "{degree}='1_lt_high_school' or {degree}='2_high_school' or {degree}='3_some_college'",
+      visibleIf: "{degree}='Less than high school' or {degree}='High school diploma' or {degree}='Some college, no degree'",
       title: "What was your favorite subject in high school?"
     },
     {
       type: "text",
       name: "college",
-      visibleIf: "{degree}='4_associates' or {degree}='5_bachelors' or {degree}='6_masters' or {degree}='7_phd'",
+      visibleIf: "{degree}='associates' or {degree}='bachelors' or {degree}='masters' or {degree}='PhD, law, or medical degree'",
       title: "What did you study in college?"
     },
     {
       type: "text",
       name: "grad",
-      visibleIf: "{degree}='6_masters' or {degree}='7_phd'",
+      visibleIf: "{degree}='masters' or {degree}='PhD, law, or medical degree'",
       title: "What did you study in graduate school?"
     }
   ];
