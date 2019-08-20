@@ -18,7 +18,7 @@ catch = pd.read_csv('catch.csv')
 subset = stims.sample(n=100)
 
 df = pd.concat([subset, catch])
-df = df.sample(n=102)
+df = df.sample(n=105)
 
 
 #df = pd.DataFrame.from_records(pairs, index=None, exclude=None, columns=('pic1','pic2'), nrows=None)
