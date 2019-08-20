@@ -198,7 +198,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
         MTurk to get paid. If you have any questions or comments, please email hroebuck@wisc.edu.`
 
     // add scale pic paths to images that need to be loaded
-    images.push('img/scale.png');
+    images.push('img/scale.jpg');
     for (let i = 1; i <= 7; i++)
         images.push('img/scale'+i+'.jpg');
 
