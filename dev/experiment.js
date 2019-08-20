@@ -46,7 +46,7 @@ export function runExperiment(trials, subjCode, workerId, assignmentId, hitId, F
             `<p>In this experiment, you will see two drawings and rate their simularity from 1 to 7.
             </p> ${continue_space}`,
 
-            `<p>Use the 1-7 number keys to select your choice.
+            `<p>Use the 1-7 number keys to select your choice. Use the whole scale when making your ratings not just 1 and 7. Please respond with care, if you respond randomly, we may deny payment.
             </p> ${continue_space}`,
         ]
     };
