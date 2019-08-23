@@ -8,19 +8,19 @@ from itertools import combinations
 ##	indices = sorted(random.sample(xrange(n), r))
 #	return tuple(pool[i] for i in indices)
 
-stims = pd.read_csv('allStimsrand.csv')
+stims = pd.read_csv('allStims.csv')
 #picNames = stims['picName'].tolist()
 #allPairs = combinations(picNames,2)
 #numStims = 120
 #pairs=list(random_combination(allPairs,numStims))
 catch = pd.read_csv('catch.csv')
 
-subset = stims.sample(n=56)
+subset = stims.sample(n=100)
 
-incstims = pd.read_csv('allStims.csv')
+
 
 df1 = pd.concat([subset, catch])
-df = pd.concat([df1, incstims])
+
 df = df.sample(n=105)
 
 
